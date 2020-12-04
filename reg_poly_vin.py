@@ -3,8 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PolynomialFeatures 
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
 
-vin = pd.read_csv('C:/Users/utilisateur/Documents/microsoft_ia/premier_model/qualite-vin-rouge.csv',sep = ",")
+vin = pd.read_csv('C:/Users/utilisateur/Documents/GitHub/premier_modele/Data_Regression/qualite-vin-rouge.csv',sep = ",")
 
 #récupération de X et y
 X = vin.iloc[:,:-1].values
@@ -68,6 +72,27 @@ print("mean squared error :" + str(mse) )
 #visualisation courbe de cout
 plt.plot(range(n_iterations), cout)
 
-sns.pairplot(data=vin, hue="qualité")
-
 plt.show()
+
+
+print("*****************************version sklearn**********************")
+X_or = vin.iloc[:,:-1].values
+scaler = StandardScaler()
+scaler.fit(X_or)
+X = scaler.transform(X_or)
+
+polynomial_features = PolynomialFeatures(degree = 4)
+X_poly = polynomial_features.fit_transform(X)
+model = LinearRegression()
+model.fit(X_poly, y)
+y_pred = model.predict(X_poly)
+plt.plot(X_or[:,10], y_pred)
+
+#plt.scatter(X[:,0],y, c='r')
+plt.title("regression polynomiale")
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+
+mse_sk = mean_squared_error(y, y_pred)
+print("mean squared error polynomiale sklearn: " + str(mse_sk) )

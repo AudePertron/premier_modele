@@ -12,7 +12,8 @@ from sklearn.pipeline import make_pipeline
 
 np.random.seed(8)
 
-boston = pd.read_csv('C:/Users/utilisateur/Documents/microsoft_ia/premier_model/boston_house_prices.csv',sep = ",")
+boston = pd.read_csv('C:/Users/utilisateur/Documents/GitHub/premier_modele/Data_Regression/boston_house_prices.csv',sep = ",")
+
 
 print(boston.head())
 print(list(boston.columns))
